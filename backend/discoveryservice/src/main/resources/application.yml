@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: discoveryservice
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    hikari:
+      connection-test-query: SELECT 1
+  jpa:
+    database: POSTGRESQL
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: ${POSTGRES_DATABASE}
+        dialect: org.hibernate.dialect.PostgreSQL82Dialect
+        format_sql: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${USER_NAME}:${PASSWORD}@${eureka.instance.hostname}:${server.port}/eureka/
+    fetch-registry: false
+    register-with-eureka: false
+  server:
+    # Сервис должен обновлять регистрацию каждые 10 сек
+    # Если не обновит за 10 сек → Eureka удалит его из реестра (считает что упал)
+    expected-client-renewal-interval-seconds: 10
+
+    # ВЫКЛЮЧИТЬ режим самосохранения
+    # true = если потеряна связь, ждать перед удалением (может быть проблема с сетью)
+    # false = если потеряна связь, сразу удалить из реестра (хорошо для разработки)
+    enable-self-preservation: false
+
+    # Если обновляют регистрацию меньше 33% сервисов → включить режим самосохранения
+    # (защита от ложных срабатываний при сетевых проблемах)
+    renewal-percent-threshold: 0.33
+
+    # Не ждать когда реестр пусто
+    # (улучшает скорость в разработке, в продакшене ставить 5000)
+    wait-time-in-ms-when-sync-empty: 0
+
+    # Timeout при обращении к другому Eureka Server'у в кластере
+    # Ждет ответ максимум 30 секунд, потом выходит из ошибкой
+    peer-node-read-timeout-ms: 30000
+
+server:
+  port: ${SERVER_PORT}
