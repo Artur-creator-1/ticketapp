@@ -1,0 +1,36 @@
+### Общие вещи
+.DS_Store
+*.log
+logs/
+*.tmp
+*.swp
+*.bak
+
+### IntelliJ IDEA / другие IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+### Java / Spring Boot / Maven / Gradle
+target/
+build/
+out/
+.gradle/
+.mvn/timing.properties
+dependency-reduced-pom.xml
+*.class
+*.war
+*.ear
+
+### Node / Angular (frontend)
+node_modules/
+dist/
+.tmp/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### OS
+Thumbs.db
