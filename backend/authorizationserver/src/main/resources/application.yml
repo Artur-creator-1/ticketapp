@@ -4,18 +4,18 @@ spring:
   cloud:
     discovery:
       enabled: true
-    profiles:
-      active: ${ACTIVE_PROFILE:dev}
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   hikari:
     connection-test-query: SELECT 1
   jpa:
     database: POSTGRESQL
     open-in-view: false
-    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
     generate-ddl: false
     show-sql: true
     hibernate:
@@ -23,7 +23,6 @@ spring:
       properties:
         hibernate:
           default_schema: ${POSTGRES_DATABASE}
-          dialect: org.hibernate.dialect.PostgreSQL82Dialect
           format_sql: true
 
 eureka:
@@ -31,7 +30,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://${USER_NAME}:${PASSWORD}@localhost:5902/eureka/
+      defaultZone: http://${USER_NAME}:${PASSWORD}@localhost:5002/eureka/
 
 ui:
   app:
